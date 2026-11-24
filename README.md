@@ -48,7 +48,7 @@ at run time.
   through a temporary file plus rename, so a crash cannot leave a half-written
   file. Files over 1 MiB and patches over 4 MiB are refused.
 
-Practice score: 100/100 on the kit's public practice set, plus 65/65 on a
+Practice score: 100/100 on the kit's public practice set, plus 70/70 on a
 hand-built adversarial set covering the spec's edge cases (no-newline-at-EOF
 handling, CRLF, moves, atomicity, parse-error line numbers, CLI usage).
 

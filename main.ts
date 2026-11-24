@@ -287,7 +287,7 @@ function unifiedEdits(lines: string[], strict: boolean): Edit[] {
   while (i < lines.length) {
     const l = lines[i]!;
     if (state === 'body') {
-      if (l.startsWith('diff --git ') || isPair(i)) {
+      if (l === 'diff --git' || l.startsWith('diff --git ') || isPair(i)) {
         closeHunk();
         state = 'after';
         continue;
@@ -309,7 +309,10 @@ function unifiedEdits(lines: string[], strict: boolean): Edit[] {
       state = 'after';
       continue;
     }
-    if (l.startsWith('diff --git ')) {
+    // A `diff --git` line not of the form `diff --git a/<X> b/<Y>` is a parse
+    // error; the spec writes the rule without a trailing space and without
+    // scoping it to a section header, so a bare `diff --git` line counts too.
+    if (l === 'diff --git' || l.startsWith('diff --git ')) {
       const g = diffGit(l);
       if (g === null) throw new Exit2(`error: parse ${i + 1}`);
       closeHunk();
